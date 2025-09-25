@@ -9,49 +9,42 @@ export default function ContactForm() {
     name: '',
     email: '',
     message: '',
-    file: null,
     honeypot: '',
   });
+
   const [status, setStatus] = useState({ type: '', message: '' });
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalInfo, setModalInfo] = useState({ message: '', type: 'success' });
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === 'file') setFormData({ ...formData, file: files[0] });
-    else setFormData({ ...formData, [name]: value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setLoading(true);
     setStatus({ type: '', message: '' });
-
-    const payload = new FormData();
-    payload.append('name', formData.name);
-    payload.append('email', formData.email);
-    payload.append('message', formData.message);
-    payload.append('honeypot', formData.honeypot);
-    if (formData.file) payload.append('file', formData.file);
 
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
-        body: payload,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
       });
+
       const result = await res.json();
 
       if (res.ok) {
         setModalInfo({ message: result.message, type: 'success' });
         setShowModal(true);
-        setFormData({ name: '', email: '', message: '', file: null, honeypot: '' });
+        setFormData({ name: '', email: '', message: '', honeypot: '' });
       } else {
         setModalInfo({ message: result.error, type: 'error' });
         setShowModal(true);
       }
-    } catch (error) {
+    } catch {
       setModalInfo({ message: 'Something went wrong!', type: 'error' });
       setShowModal(true);
     }
@@ -70,19 +63,24 @@ export default function ContactForm() {
 
       <form
         onSubmit={handleSubmit}
-        className="max-w-xl w-full mx-auto p-8 bg-gradient-to-br from-white to-blue-50 shadow-2xl rounded-xl space-y-6 transition text-black-all duration-300 ease-in-out"
+        className="max-w-xl w-full mx-auto p-8 bg-gradient-to-br from-white to-blue-50 shadow-2xl rounded-xl space-y-6 transition duration-300 ease-in-out text-black"
       >
         <h2 className="text-3xl font-bold text-center text-blue-600 mb-4">Get in Touch</h2>
 
         <Notification type={status.type} message={status.message} />
+
+        {/* Honeypot Field - Hidden */}
         <input
           type="text"
           name="honeypot"
           value={formData.honeypot}
           onChange={handleChange}
           className="hidden"
+          autoComplete="off"
+          tabIndex={-1}
         />
 
+        {/* Name */}
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-700">Name</label>
           <input
@@ -92,10 +90,11 @@ export default function ContactForm() {
             onChange={handleChange}
             placeholder="Your Name"
             required
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition text-black"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white text-black"
           />
         </div>
 
+        {/* Email */}
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-700">Email</label>
           <input
@@ -105,10 +104,11 @@ export default function ContactForm() {
             onChange={handleChange}
             placeholder="Your Email"
             required
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition text-black "
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white text-black"
           />
         </div>
 
+        {/* Message */}
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-700">Message</label>
           <textarea
@@ -117,24 +117,15 @@ export default function ContactForm() {
             onChange={handleChange}
             placeholder="Your Message"
             required
-            className="w-full p-3 border border-gray-300 rounded-lg h-32 resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition text-black"
+            className="w-full p-3 border border-gray-300 rounded-lg h-32 resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white text-black"
           />
         </div>
 
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">Upload File (optional)</label>
-          <input
-            type="file"
-            name="file"
-            onChange={handleChange}
-            className="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition text-black"
-          />
-        </div>
-
+        {/* Submit Button */}
         <button
           type="submit"
           disabled={loading}
-          className={`w-full py-3 rounded-lg text-white font-semibold text-lg transition text-black-all duration-300 ${
+          className={`w-full py-3 rounded-lg text-white font-semibold text-lg transition duration-300 ${
             loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
           } flex items-center justify-center`}
         >
@@ -146,7 +137,14 @@ export default function ContactForm() {
                 fill="none"
                 viewBox="0 0 24 24"
               >
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
                 <path
                   className="opacity-75"
                   fill="currentColor"
