@@ -9,7 +9,7 @@
 
 ---
 
-## ✅ Project Overview
+## Project Overview
 This is a fully functional **Contact Form** built using **Next.js**, styled with **Tailwind CSS**, and integrated with **NodeMailer** for sending emails.  
 The form includes:
 
