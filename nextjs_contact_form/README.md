@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Next.js Contact Form with Tailwind CSS & NodeMailer
 
-## Getting Started
+📅 **Date:** 25-09-2025  
+🔗 **GitHub Link:** [https://github.com/SujitSingh521/nextjs-tailwind-contact-form](https://github.com/SujitSingh521/nextjs-tailwind-contact-form)
 
-First, run the development server:
+---
 
+## Project Overview
+This is a fully functional **Contact Form** built using **Next.js**, styled with **Tailwind CSS**, and integrated with **NodeMailer** for sending emails.  
+The form includes:
+
+- Name, Email, Message fields
+- Honeypot field for spam protection
+- Success/Error notification modals
+- Responsive design for mobile, tablet, and desktop
+
+---
+
+## 🛠 Technologies Used
+
+- **Next.js** - React framework for server-side rendering and API routes  
+- **Tailwind CSS** - For modern, responsive styling  
+- **NodeMailer** - Backend email sending functionality  
+- **React Hooks** - State management in functional components  
+
+---
+
+## 📋 Features
+
+- Spam protection using hidden honeypot field  
+- Real-time form validation and error handling  
+- Loading indicator while sending email  
+- Success and error modals for better user feedback  
+- Fully responsive design  
+
+---
+
+## 🚀 Installation & Setup
+
+1. **Clone the repository**
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+git clone https://github.com/SujitSingh521/nextjs-tailwind-contact-form.git
+cd nextjs-tailwind-contact-form
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
