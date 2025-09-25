@@ -45,3 +45,25 @@ The form includes:
 ```bash
 git clone https://github.com/SujitSingh521/nextjs-tailwind-contact-form.git
 cd nextjs-tailwind-contact-form
+
+
+
+2. Install dependencies
+npm install
+
+
+
+
+3.Setup environment variables in .env.local
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=465
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-email-app-password
+EMAIL_TO=recipient-email@example.com
+
+
+
+4. Run the development server
+Run the development server
+
+
