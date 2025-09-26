@@ -5,11 +5,12 @@ import Notification from './Notification';
 import Modal from './Modal';
 
 export default function ContactForm() {
+  // ─── 📦 State Management ───
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: '',
-    honeypot: '',
+    honeypot: '', // spam protection
   });
 
   const [file, setFile] = useState(null);
@@ -18,15 +19,18 @@ export default function ContactForm() {
   const [showModal, setShowModal] = useState(false);
   const [modalInfo, setModalInfo] = useState({ message: '', type: 'success' });
 
+  // ─── 📝 Handle Input Changes ───
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // ─── 📎 Handle File Upload ───
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
 
+  // ─── 📤 Handle Form Submission ───
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -64,6 +68,7 @@ export default function ContactForm() {
     setLoading(false);
   };
 
+  // ─── 🧾 Render Form UI ───
   return (
     <>
       <Modal
@@ -77,11 +82,13 @@ export default function ContactForm() {
         onSubmit={handleSubmit}
         className="max-w-xl w-full mx-auto p-8 bg-gradient-to-br from-white to-blue-50 shadow-2xl rounded-xl space-y-6 transition duration-300 ease-in-out text-black"
       >
-        <h2 className="text-3xl font-bold text-center text-blue-600 mb-4">Get in Touch</h2>
+        <h2 className="text-3xl font-bold text-center text-blue-600 mb-4">
+          Get in Touch
+        </h2>
 
         <Notification type={status.type} message={status.message} />
 
-        {/* Honeypot Field - Hidden */}
+        {/* ─── 🕵️‍♂️ Honeypot Field (Hidden) ─── */}
         <input
           type="text"
           name="honeypot"
@@ -92,7 +99,7 @@ export default function ContactForm() {
           tabIndex={-1}
         />
 
-        {/* Name */}
+        {/* ─── 👤 Name Field ─── */}
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-700">Name</label>
           <input
@@ -106,7 +113,7 @@ export default function ContactForm() {
           />
         </div>
 
-        {/* Email */}
+        {/* ─── 📧 Email Field ─── */}
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-700">Email</label>
           <input
@@ -120,7 +127,7 @@ export default function ContactForm() {
           />
         </div>
 
-        {/* Message */}
+        {/* ─── 💬 Message Field ─── */}
         <div className="space-y-2">
           <label className="block text-sm font-medium text-gray-700">Message</label>
           <textarea
@@ -133,9 +140,11 @@ export default function ContactForm() {
           />
         </div>
 
-        {/* File Upload */}
+        {/* ─── 📎 File Upload ─── */}
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">Attachment (optional)</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Attachment (optional)
+          </label>
           <input
             type="file"
             onChange={handleFileChange}
@@ -143,12 +152,14 @@ export default function ContactForm() {
           />
         </div>
 
-        {/* Submit Button */}
+        {/* ─── 🚀 Submit Button ─── */}
         <button
           type="submit"
           disabled={loading}
           className={`w-full py-3 rounded-lg text-white font-semibold text-lg transition duration-300 ${
-            loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+            loading
+              ? 'bg-blue-400 cursor-not-allowed'
+              : 'bg-blue-600 hover:bg-blue-700'
           } flex items-center justify-center`}
         >
           {loading ? (
@@ -166,12 +177,12 @@ export default function ContactForm() {
                   r="10"
                   stroke="currentColor"
                   strokeWidth="4"
-                ></circle>
+                />
                 <path
                   className="opacity-75"
                   fill="currentColor"
                   d="M4 12a8 8 0 018-8v8z"
-                ></path>
+                />
               </svg>
               Sending...
             </>
