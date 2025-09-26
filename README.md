@@ -1,47 +1,55 @@
-# Next.js Contact Form with Tailwind CSS & NodeMailer
+# 📬 Next.js Contact Form with Tailwind CSS & NodeMailer
 
-📅 **Date:** 25-09-2025  
-🔗 **GitHub Link:** [https://github.com/SujitSingh521/nextjs-tailwind-contact-form](https://github.com/SujitSingh521/nextjs-tailwind-contact-form)
+> ✅ **Date:** 26-09-2025  
+> 👤 **Author:** Sujit Singh  
+> 🔗 **GitHub Repo:** [github.com/SujitSingh521/nextjs-tailwind-contact-form](https://github.com/SujitSingh521/nextjs-tailwind-contact-form)
 
 ---
 
-## Project Overview
-This is a fully functional **Contact Form** built using **Next.js**, styled with **Tailwind CSS**, and integrated with **NodeMailer** for sending emails.  
-The form includes:
+## ✅ Project Overview
 
-- Name, Email, Message fields
-- Honeypot field for spam protection
-- Success/Error notification modals
-- Responsive design for mobile, tablet, and desktop
+This project is a fully functional **Contact Form** built using:
+
+- **Next.js 15+** (App Router)
+- **Tailwind CSS 4** for styling
+- **NodeMailer** for sending emails via SMTP
+
+✨ Now includes:
+
+- File upload support
+- Spam protection (honeypot)
+- Backend validation
+- Feedback modals (success/error)
 
 ---
 
 ## 🛠 Technologies Used
 
-- **Next.js** - React framework for server-side rendering and API routes  
-- **Tailwind CSS** - For modern, responsive styling  
-- **NodeMailer** - Backend email sending functionality  
-- **React Hooks** - State management in functional components  
+- **Next.js 15+** – Full-stack React framework with API Routes  
+- **Tailwind CSS 4** – Utility-first CSS framework  
+- **NodeMailer** – Email sending library (SMTP-based)  
+- **React Hooks** – For state management and form handling  
 
 ---
 
 ## 📋 Features
 
-- Spam protection using hidden honeypot field  
-- Real-time form validation and error handling  
-- Loading indicator while sending email  
-- Success and error modals for better user feedback  
-- Fully responsive design  
+- 📧 **Email Integration** – Send messages directly to your inbox  
+- 🛡 **Spam Protection** – Honeypot technique to block bots  
+- ✅ **Validation** – Real-time error handling (frontend + backend)  
+- ⏳ **UX Feedback** – Submit button with loading state  
+- 🎉 **Modals** – Success & error alerts via modals  
+- 📂 **File Upload** – Attach files (e.g., PDFs, images)  
+- 📱 **Responsive Design** – Fully mobile-friendly  
 
 ---
 
 ## 🚀 Installation & Setup
 
-1. **Clone the repository**
+### 1️⃣ Clone the Repository
+
 ```bash
-git clone https://github.com/SujitSingh521/nextjs-tailwind-contact-form.git
+git clone https://github.com/SujitSingh521/nextjs-tailwind-contact-form
 cd nextjs-tailwind-contact-form
-
-
 
 
