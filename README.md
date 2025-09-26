@@ -6,7 +6,7 @@
 
 ---
 
-## ✅ Project Overview
+## Project Overview
 
 This project is a fully functional **Contact Form** built using:
 
