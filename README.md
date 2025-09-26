@@ -1,7 +1,3 @@
-# nextjs-tailwind-contact-form
-
-
-
 # Next.js Contact Form with Tailwind CSS & NodeMailer
 
 📅 **Date:** 25-09-2025  
