@@ -12,6 +12,7 @@ export default function ContactForm() {
     honeypot: '',
   });
 
+  const [file, setFile] = useState(null);
   const [status, setStatus] = useState({ type: '', message: '' });
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -22,16 +23,26 @@ export default function ContactForm() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setStatus({ type: '', message: '' });
 
     try {
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formData.name);
+      formDataToSend.append('email', formData.email);
+      formDataToSend.append('message', formData.message);
+      formDataToSend.append('honeypot', formData.honeypot);
+      if (file) formDataToSend.append('file', file);
+
       const res = await fetch('/api/contact', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: formDataToSend,
       });
 
       const result = await res.json();
@@ -40,6 +51,7 @@ export default function ContactForm() {
         setModalInfo({ message: result.message, type: 'success' });
         setShowModal(true);
         setFormData({ name: '', email: '', message: '', honeypot: '' });
+        setFile(null);
       } else {
         setModalInfo({ message: result.error, type: 'error' });
         setShowModal(true);
@@ -118,6 +130,16 @@ export default function ContactForm() {
             placeholder="Your Message"
             required
             className="w-full p-3 border border-gray-300 rounded-lg h-32 resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent bg-white text-black"
+          />
+        </div>
+
+        {/* File Upload */}
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-gray-700">Attachment (optional)</label>
+          <input
+            type="file"
+            onChange={handleFileChange}
+            className="w-full text-gray-600"
           />
         </div>
 

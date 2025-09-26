@@ -1,18 +1,20 @@
 import nodemailer from 'nodemailer';
 
-export const config = {
-  api: {
-    bodyParser: true, // Enable built-in JSON body parsing
-  },
-};
-
-export async function POST(request) {
+export async function POST(req) {
   try {
-    const data = await request.json();
-    const { name, email, message, honeypot } = data;
+    const formData = await req.formData();
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const message = formData.get('message');
+    const honeypot = formData.get('honeypot');
+    const file = formData.get('file'); // File object मिलेगा
+
+    // Logging
+    console.log("📩 New form submission:", { name, email });
 
     // Spam honeypot
     if (honeypot) {
+      console.warn("🚨 Spam detected");
       return new Response(JSON.stringify({ error: 'Spam detected!' }), { status: 400 });
     }
 
@@ -30,7 +32,7 @@ export async function POST(request) {
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: Number(process.env.EMAIL_PORT),
-      secure: Number(process.env.EMAIL_PORT) === 465, // true for 465, false for other ports
+      secure: Number(process.env.EMAIL_PORT) === 465,
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -40,26 +42,40 @@ export async function POST(request) {
       },
     });
 
-    // Email message
+    // Prepare email
     const mailOptions = {
       from: `"${name}" <${email}>`,
-      to: process.env.EMAIL_TO, // Your receiving email
+      to: process.env.EMAIL_TO,
       subject: `New Contact Message from ${name}`,
       html: `
-        <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
-        <p><strong>From:</strong> ${name} (${email})</p>
+        <div style="font-family:Arial,sans-serif; line-height:1.6; color:#333;">
+          <h2 style="color:#2c3e50;">New Contact Form Message</h2>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Message:</strong><br/> ${message.replace(/\n/g, '<br>')}</p>
+          <p style="margin-top:20px;">📅 Sent on: ${new Date().toLocaleString()}</p>
+        </div>
       `,
+      attachments: [],
     };
+
+    // If file uploaded, attach it
+    if (file) {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      mailOptions.attachments.push({
+        filename: file.name,
+        content: buffer,
+      });
+    }
 
     await transporter.sendMail(mailOptions);
 
+    console.log("✅ Email sent successfully!");
     return new Response(JSON.stringify({ message: 'Email sent successfully!' }), { status: 200 });
   } catch (error) {
-    console.error('Email error:', error);
-    return new Response(
-      JSON.stringify({ error: `Failed to send email: ${error.message}` }),
-      { status: 500 }
-    );
+    console.error('❌ Email error:', error);
+    return new Response(JSON.stringify({ error: `Failed to send email: ${error.message}` }), {
+      status: 500,
+    });
   }
 }
