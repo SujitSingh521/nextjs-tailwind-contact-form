@@ -2,44 +2,41 @@ import nodemailer from 'nodemailer';
 
 export async function POST(req) {
   try {
-    // ───── 📥 Parse Form Data ─────
     const formData = await req.formData();
-    const name = formData.get('name');
-    const email = formData.get('email');
-    const message = formData.get('message');
+    const name = formData.get('name')?.trim();
+    const email = formData.get('email')?.trim();
+    const message = formData.get('message')?.trim();
     const honeypot = formData.get('honeypot');
     const file = formData.get('file');
 
-    // ───── 🛡️ Spam Protection (Honeypot) ─────
+    // Logging
+    console.log(`[ContactForm] Submission received: ${name}, ${email}`);
+
+    // Spam protection
     if (honeypot) {
+      console.warn("[ContactForm] Spam detected!");
       return new Response(JSON.stringify({ error: 'Spam detected!' }), { status: 400 });
     }
 
-    // ───── ✅ Input Validation ─────
+    // Validation
     if (!name || !email || !message) {
       return new Response(JSON.stringify({ error: 'All fields are required' }), { status: 400 });
     }
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return new Response(JSON.stringify({ error: 'Invalid email format' }), { status: 400 });
     }
 
-    // ───── ✉️ Create Email Transporter ─────
+    // Nodemailer transporter
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: Number(process.env.EMAIL_PORT),
       secure: Number(process.env.EMAIL_PORT) === 465,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
+      auth: { user: process.env.EMAIL_USER, pass: process.env.EMAIL_PASS },
+      tls: { rejectUnauthorized: false },
     });
 
-    // ───── 📝 Compose Email Content ─────
+    // Compose email
     const mailOptions = {
       from: `"${name}" <${email}>`,
       to: process.env.EMAIL_TO,
@@ -53,29 +50,17 @@ export async function POST(req) {
           <p style="margin-top: 20px;">📅 Sent on: ${new Date().toLocaleString()}</p>
         </div>
       `,
-      attachments: [],
+      attachments: file
+        ? [{ filename: file.name, content: Buffer.from(await file.arrayBuffer()) }]
+        : [],
     };
 
-    // ───── 📎 Handle File Attachment (if any) ─────
-    if (file) {
-      const buffer = Buffer.from(await file.arrayBuffer());
-      mailOptions.attachments.push({
-        filename: file.name,
-        content: buffer,
-      });
-    }
-
-    // ───── 📤 Send the Email ─────
     await transporter.sendMail(mailOptions);
+    console.log("[ContactForm] Email sent successfully!");
 
-    // ───── ✅ Success Response ─────
     return new Response(JSON.stringify({ message: 'Email sent successfully!' }), { status: 200 });
-
   } catch (error) {
-    // ───── ❌ Error Handling ─────
-    return new Response(
-      JSON.stringify({ error: `Failed to send email: ${error.message}` }),
-      { status: 500 }
-    );
+    console.error(`[ContactForm] Failed: ${error.message}`);
+    return new Response(JSON.stringify({ error: `Failed to send email: ${error.message}` }), { status: 500 });
   }
 }

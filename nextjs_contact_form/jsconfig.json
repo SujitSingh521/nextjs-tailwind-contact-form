@@ -1,15 +1,10 @@
-// filepath: jsconfig.json
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "checkJs": true
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/node_modules/*"
-  ]
+  "include": ["next-env.d.ts", "**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }
