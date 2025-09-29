@@ -83,3 +83,75 @@ nextjs_contact_form/
 ├─ package.json              # Project dependencies and scripts
 ├─ README.md                 # Project documentation
 └─ node_modules/             # Installed npm packages (auto-generated)
+
+
+
+
+## 📌 Setup Instructions
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/SujitSingh521/nextjs-tailwind-contact-form.git
+cd nextjs_contact_form
+
+
+### 2. Install Dependencies
+
+Install all required packages using npm:
+
+```bash
+npm install
+
+
+### 3. Configure Environment Variables
+
+Create a `.env` file in the root of the project:
+```env
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=465
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-app-password
+EMAIL_TO=recipient-email@gmail.com
+
+
+## 📬 Usage
+
+1. Fill out the **Name**, **Email**, and **Message** fields.
+2. Optionally, attach a file.
+3. Click **Send Message**.
+4. A modal notification will appear showing **success** or **error**.
+5. An email will be sent to the recipient specified in `.env`.
+
+---
+
+## 🛡 Security & Spam Protection
+
+- Hidden **honeypot field** to detect bots
+- Required fields and **email format validation**
+- Optional **file type and size validation** can be added
+
+---
+
+## 📄 Code Highlights
+
+- **API Route (`app/api/contact/POST.js`)**  
+  Handles form submission, validation, spam detection, and sends emails using NodeMailer.
+
+- **ContactForm.jsx**  
+  Client-side form with file upload, modal notifications, and loading spinner.
+
+- **Modal.jsx**  
+  Custom modal component for displaying success/error messages.
+
+- **logger.js**  
+  Simple logging utility for info, warning, and error messages.
+
+---
+
+## 📦 Deployment
+
+- Recommended platform: **Vercel**
+- Configure environment variables in the deployment platform
+- Fully compatible with **Next.js 15+** and **React 19**
+
+
