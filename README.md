@@ -114,6 +114,16 @@ EMAIL_PASS=your-app-password
 EMAIL_TO=recipient-email@gmail.com
 
 
+### 4. Run the Development Server
+
+Start the development server:
+
+```bash
+npm run dev
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the app.
+
+
 ## 📬 Usage
 
 1. Fill out the **Name**, **Email**, and **Message** fields.
