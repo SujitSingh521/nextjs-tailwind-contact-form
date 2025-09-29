@@ -1,5 +1,4 @@
 'use client';
-
 import { useState, useEffect } from 'react';
 import Notification from './Notification';
 import Modal from './Modal';
@@ -7,7 +6,6 @@ import Modal from './Modal';
 export default function ContactForm() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '', honeypot: '' });
   const [file, setFile] = useState(null);
-  const [status, setStatus] = useState({ type: '', message: '' });
   const [loading, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [modalInfo, setModalInfo] = useState({ message: '', type: 'success' });
@@ -23,7 +21,6 @@ export default function ContactForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setStatus({ type: '', message: '' });
 
     try {
       const formDataToSend = new FormData();
@@ -56,7 +53,9 @@ export default function ContactForm() {
         message={
           <>
             {modalInfo.message}
-            {modalInfo.type === 'success' && <p className="mt-2 text-sm text-gray-500">📅 Sent at: {sentTime}</p>}
+            {modalInfo.type === 'success' && (
+              <p className="mt-2 text-sm text-gray-500">📅 Sent at: {sentTime}</p>
+            )}
           </>
         }
         type={modalInfo.type}
@@ -65,11 +64,11 @@ export default function ContactForm() {
 
       <form
         onSubmit={handleSubmit}
-        className="max-w-xl w-full mx-auto p-8 bg-gradient-to-br from-white to-blue-50 shadow-2xl rounded-xl space-y-6 text-black transition"
+        className="max-w-xl w-full mx-auto p-6 sm:p-8 bg-gradient-to-br from-white to-blue-50 shadow-2xl rounded-xl space-y-6 text-black"
       >
-        <h2 className="text-3xl font-bold text-center text-blue-600 mb-4">Get in Touch</h2>
-        <Notification type={status.type} message={status.message} />
+        <h2 className="text-3xl font-bold text-center text-blue-600">Get in Touch</h2>
 
+        {/* Hidden honeypot */}
         <input type="text" name="honeypot" value={formData.honeypot} onChange={handleChange} className="hidden" autoComplete="off" tabIndex={-1} />
 
         <div>
